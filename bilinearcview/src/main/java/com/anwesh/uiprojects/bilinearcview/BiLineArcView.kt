@@ -167,4 +167,26 @@ class BiLineArcView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiLineArcView) {
+
+        private val curr : BiLineArc = BiLineArc(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            curr.draw(canvas, paint)
+            animator.animate {
+                curr.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            curr.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
