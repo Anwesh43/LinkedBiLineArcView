@@ -14,6 +14,28 @@ import android.content.Context
 
 val nodes : Int = 5
 
+fun Canvas.drawBLANode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = w / (nodes + 1)
+    val size : Float = gap / 3
+    paint.style = Paint.Style.STROKE
+    paint.strokeWidth = Math.min(w, h) / 60
+    paint.strokeCap = Paint.Cap.ROUND
+    save()
+    translate(gap * i + gap, h/2)
+    for (j in 0..1) {
+        val sf : Float = 1f - 2 * j
+        val sc : Float = Math.min(0.5f, Math.max(scale - 0.5f * j, 0f)) * 2
+        save()
+        rotate(90f * sc * sf)
+        drawLine(0f, 0f, size, 0f, paint)
+        drawArc(RectF(-size, -size, size, size), -30f, 60f, false, paint)
+        restore()
+    }
+    restore()
+}
+
 class BiLineArcView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
