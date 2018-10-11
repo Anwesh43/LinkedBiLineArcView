@@ -4,6 +4,7 @@ package com.anwesh.uiprojects.bilinearcview
  * Created by anweshmishra on 11/10/18.
  */
 
+import android.app.Activity
 import android.view.View
 import android.view.MotionEvent
 import android.graphics.Canvas
@@ -189,6 +190,14 @@ class BiLineArcView(ctx : Context) : View(ctx) {
             curr.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : BiLineArcView {
+            val view : BiLineArcView = BiLineArcView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
