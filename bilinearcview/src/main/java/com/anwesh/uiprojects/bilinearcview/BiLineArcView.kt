@@ -100,4 +100,49 @@ class BiLineArcView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class BLANode(var i : Int, val state : State = State()) {
+
+        private var next : BLANode? = null
+        private var prev : BLANode? = null
+
+        fun addNeighbor() {
+            if (i < nodes - 1) {
+                next = BLANode(i + 1)
+                next?.prev = this
+            }
+        }
+
+        init {
+            addNeighbor()
+        }
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            paint.color = Color.parseColor("#283593")
+            canvas.drawBLANode(i, state.scale, paint)
+            next?.draw(canvas, paint)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            state.update {
+                cb(i, it)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            state.startUpdating(cb)
+        }
+
+        fun getNext(dir : Int, cb : () -> Unit) : BLANode {
+            var curr : BLANode? = prev
+            if (dir == 1) {
+                curr = next
+            }
+            if (curr != null) {
+                return curr
+            }
+            cb()
+            return this
+        }
+    }
 }
