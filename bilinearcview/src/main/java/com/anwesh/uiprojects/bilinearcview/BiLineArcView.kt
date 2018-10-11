@@ -150,11 +150,12 @@ class BiLineArcView(ctx : Context) : View(ctx) {
     }
 
     data class BiLineArc(var i : Int) {
-        private var curr : BLANode = BLANode(0)
+        private var root : BLANode = BLANode(0)
+        private var curr : BLANode = root
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint : Paint) {
-            curr.draw(canvas, paint)
+            root.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
